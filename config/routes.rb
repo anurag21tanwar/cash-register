@@ -7,8 +7,8 @@ Rails.application.routes.draw do
       resources :basket, only: [:show]
       resources :items, only: %i[create destroy] do
         member do
-          post :add
-          post :sub
+          put :add
+          put :sub
         end
       end
     end

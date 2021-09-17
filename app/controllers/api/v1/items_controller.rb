@@ -3,6 +3,8 @@
 module Api
   module V1
     class ItemsController < ApplicationController
+      before_action :item, only: %i[destroy add sub]
+
       def create
         product = Product.find_by(id: params[:product_id])
         current_basket = @current_basket
@@ -15,10 +17,33 @@ module Api
         end
 
         if @item.save
-          render status: :ok, json: current_basket.items.map { |item| ItemSerializer.new(item).as_json }
+          render status: :ok, json: ItemSerializer.new(@item).as_json
         else
           render status: :unprocessable_entity, json: {}
         end
+      end
+
+      def destroy
+        @item.destroy
+        render status: :ok, json: ItemSerializer.new(@item).as_json
+      end
+
+      def add
+        @item.quantity += 1
+        @item.save
+        render status: :ok, json: ItemSerializer.new(@item).as_json
+      end
+
+      def sub
+        @item.quantity -= 1
+        @item.save
+        render status: :ok, json: ItemSerializer.new(@item).as_json
+      end
+
+      private
+
+      def item
+        @item = Item.find_by(id: params[:id])
       end
     end
   end
