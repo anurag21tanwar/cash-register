@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Loader from './Loader';
+import { Link } from "react-router-dom";
+
+const totalAmount = (basket) => {
+    return basket.reduce((sum, item) => sum + parseFloat(item.amount), 0).toFixed(2);
+};
 
 const Basket = () => {
     const [basket, setBasket] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = "/api/v1/basket";
+        const url = `/api/v1/basket/${currentBasketId}`;
         fetch(url)
             .then(response => {
                 if (response.ok) {
@@ -15,7 +20,7 @@ const Basket = () => {
                 throw new Error("Network response was not ok.");
             })
             .then(response => {
-                setBasket(response);
+                setBasket(response.items);
                 setLoading(false);
             })
             .catch(() => this.props.history.push("/"));
@@ -29,20 +34,53 @@ const Basket = () => {
                 <div className="row">
                     {
                         loading ? <Loader /> :
-                            basket.length > 0 ?
-                                basket.map((item, index) => (
-                                    <div key={index} style={{width: '15rem'}}>
-                                        <div className="card">
-                                            <div className="card-body">
-                                                <h5 className="card-title">{item.code}</h5>
-                                                <p className="card-text">{`Code: ${item.price}`}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )) : (
+                            basket.length > 0 ? (
+                                    <>
+                                        <table className="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th>Code</th>
+                                                <th>Quantity</th>
+                                                <th>Amount</th>
+                                                <th />
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            { basket.map((item, index) => (
+                                                <tr key={index}>
+                                                    <td>{item.code}</td>
+                                                    <td>
+                                                        <span>
+                                                            <Link to="#" onClick={() => decreaseQuantity(item.product_id)} className="btn">
+                                                                <i className="bi bi-caret-left-fill"></i>
+                                                            </Link>
+                                                        </span>{item.quantity}
+                                                        <span>
+                                                            <Link to="#" onClick={() => increaseQuantity(item.product_id)} className="btn">
+                                                                <i className="bi bi-caret-right-fill"></i>
+                                                            </Link>
+                                                        </span>
+                                                    </td>
+                                                    <td>{`€${item.amount}`}</td>
+                                                    <td><Link to="#" onClick={() => removeFromBasket(item.product_id)} className="btn">
+                                                        <i className="bi bi-trash"></i>
+                                                    </Link></td>
+                                                </tr>))
+                                            }
+                                            <tr>
+                                                <td>Total Amount</td>
+                                                <td />
+                                                <td>{`€${totalAmount(basket)}`}</td>
+                                                <td />
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </>
+                                )
+                                : (
                                     <div
-                                        className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-                                        <h4>Nothing added in basket yet!</h4>
+                                        className="d-flex align-items-center justify-content-center">
+                                        <h6>Nothing added in basket yet!</h6>
                                     </div>
                                 )
                     }

@@ -12,6 +12,9 @@
 </head>
 
 <body>
+<%= javascript_tag nonce: true do -%>
+  var currentBasketId = "<%= @current_basket.id %>";
+<% end -%>
 <%= yield %>
 </body>
 </html>

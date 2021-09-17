@@ -35,9 +35,9 @@ const Products = () => {
                                     <div key={index} style={{width: '15rem'}}>
                                         <div className="card">
                                             <div className="card-body">
-                                                <h5 className="card-title">{product.name}</h5>
-                                                <p className="card-text">{`Code: ${product.code}`}</p>
-                                                <Link to={`#`} className="btn btn-primary">
+                                                <h5 className="card-title">{`${product.name}, ${product.code}`}</h5>
+                                                <p className="card-text">{`€${product.price}`}</p>
+                                                <Link to="#" onClick={() => addToBasket(product.id)} className="btn btn-primary">
                                                     Add to Basket
                                                 </Link>
                                             </div>
@@ -46,8 +46,8 @@ const Products = () => {
                                     </div>
                                 )) : (
                                     <div
-                                        className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-                                        <h4>No products registered yet!</h4>
+                                        className="d-flex align-items-center justify-content-center">
+                                        <h6>No products registered yet!</h6>
                                     </div>
                                 )
                     }
