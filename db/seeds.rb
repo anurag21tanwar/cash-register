@@ -9,6 +9,8 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Product.destroy_all
+Basket.destroy_all
+Item.destroy_all
 Product.create([
                  { code: 'GR1', name: 'Green Tea', price: 3.11 },
                  { code: 'SR1', name: 'Strawberries', price: 5.00 },

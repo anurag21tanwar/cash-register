@@ -18,9 +18,13 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    if session[:basket_id].nil?
-      @current_basket = Basket.create
-      session[:basket_id] = @current_basket.id
-    end
+    return unless session[:basket_id].nil?
+
+    set_basket
+  end
+
+  def set_basket
+    @current_basket = Basket.create
+    session[:basket_id] = @current_basket.id
   end
 end

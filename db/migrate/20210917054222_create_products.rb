@@ -8,6 +8,8 @@ class CreateProducts < ActiveRecord::Migration[6.1]
       t.decimal :price
 
       t.timestamps
+
+      t.index :code
     end
   end
 end

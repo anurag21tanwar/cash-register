@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20_210_917_074_349) do
     t.integer 'basket_id'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.index ['basket_id'], name: 'index_items_on_basket_id'
+    t.index ['product_id'], name: 'index_items_on_product_id'
   end
 
   create_table 'products', force: :cascade do |t|
@@ -35,5 +37,6 @@ ActiveRecord::Schema.define(version: 20_210_917_074_349) do
     t.decimal 'price'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.index ['code'], name: 'index_products_on_code'
   end
 end

@@ -8,6 +8,9 @@ class CreateItems < ActiveRecord::Migration[6.1]
       t.integer :basket_id
 
       t.timestamps
+
+      t.index :product_id
+      t.index :basket_id
     end
   end
 end
