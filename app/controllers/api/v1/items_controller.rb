@@ -35,8 +35,10 @@ module Api
       end
 
       def sub
-        @item.quantity -= 1
-        @item.save
+        if @item.quantity > 1
+          @item.quantity -= 1
+          @item.save
+        end
         render status: :ok, json: ItemSerializer.new(@item).as_json
       end
 
