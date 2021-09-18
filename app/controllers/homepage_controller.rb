@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
 class HomepageController < ApplicationController
-  def index; end
+  def index
+    render status: :ok
+  end
 end

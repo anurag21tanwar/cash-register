@@ -6,6 +6,9 @@ class Item < ApplicationRecord
   belongs_to :product
   belongs_to :basket
 
+  validates :product_id, :basket_id, :quantity, presence: true
+  validates :quantity, numericality: { greater_than: 0 }
+
   def amount
     format_amount(apply_discount(product.code))
   end
@@ -30,7 +33,7 @@ class Item < ApplicationRecord
 
   def for_sr1
     if quantity > 2
-      (formatted_price - (BigDecimal(1) / BigDecimal(2))) * quantity
+      (formatted_price - (BigDecimal(1, 0) / BigDecimal(2, 0))) * quantity
     else
       formatted_price * quantity
     end
@@ -38,17 +41,17 @@ class Item < ApplicationRecord
 
   def for_cf1
     if quantity > 2
-      (formatted_price * quantity) * (BigDecimal(2) / BigDecimal(3))
+      (formatted_price * quantity) * (BigDecimal(2, 0) / BigDecimal(3, 0))
     else
       (formatted_price * quantity)
     end
   end
 
   def formatted_price
-    BigDecimal(product.price)
+    BigDecimal(product.price, 0)
   end
 
   def format_amount(amount)
-    BigDecimal(amount).truncate(2).to_s('F')
+    BigDecimal(amount, 0).truncate(2)
   end
 end

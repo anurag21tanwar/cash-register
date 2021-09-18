@@ -18,7 +18,7 @@
 require 'simplecov'
 SimpleCov.start do
   coverage_dir 'tmp/coverage'
-  add_filter '/spec/'
+  add_filter %w[spec/ config/]
 end
 SimpleCov.minimum_coverage 100
 
@@ -100,4 +100,15 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before(:all) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:all) do
+    DatabaseCleaner.clean
+  end
 end

@@ -8,11 +8,8 @@ module Api
 
       def create
         find_or_create_item
-        if @item.save
-          render status: :ok, json: ItemSerializer.new(@item).as_json
-        else
-          render status: :unprocessable_entity, json: {}
-        end
+        @item.save
+        render status: :ok, json: ItemSerializer.new(@item).as_json
       end
 
       def destroy

@@ -17,7 +17,10 @@ gem 'webpacker', '~> 5.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'database_cleaner-active_record'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
+  gem 'shoulda-matchers', '~> 5.0'
   gem 'simplecov', require: false
 end
 
